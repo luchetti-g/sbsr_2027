@@ -1,0 +1,59 @@
+{
+ "enriquecimento": {
+  "corredores_2025": {
+   "area_ha": 278599.32,
+   "VSOMA_medio": 2.192214108778155,
+   "pct_VSOMA_ge1": 99.02812038450058,
+   "pct_VSOMA_ge3": 28.920759749162343
+  },
+  "AOI_fora_dos_corredores": {
+   "area_ha": 883782.27,
+   "VSOMA_medio": 1.5613280633022883,
+   "pct_VSOMA_ge1": 96.26450754663816,
+   "pct_VSOMA_ge3": 14.009995923543475
+  },
+  "AOI_total": {
+   "area_ha": 1162381.59,
+   "VSOMA_medio": 1.7125386681322095,
+   "pct_VSOMA_ge1": 96.92688955956366,
+   "pct_VSOMA_ge3": 17.58380395546354
+  },
+  "razao_enriquecimento_VSOMA_ge3": 2.0642946583989845
+ },
+ "perda_2008_2025": {
+  "VSOMA_0_sem_indicacao": {
+   "area_ha": 35721.27,
+   "natural_2008_ha": 31865.58,
+   "natural_2025_ha": 32079.24,
+   "perdida_ha": 589.41,
+   "ganho_ha": 803.07,
+   "perda_liquida_pct_do_natural_2008": -0.6705040360162909
+  },
+  "VSOMA_1": {
+   "area_ha": 611682.84,
+   "natural_2008_ha": 138093.66,
+   "natural_2025_ha": 146564.19,
+   "perdida_ha": 10765.71,
+   "ganho_ha": 19236.24,
+   "perda_liquida_pct_do_natural_2008": -6.133902164661289
+  },
+  "VSOMA_2": {
+   "area_ha": 310586.58,
+   "natural_2008_ha": 91089.09,
+   "natural_2025_ha": 95648.85,
+   "perdida_ha": 8072.64,
+   "ganho_ha": 12632.4,
+   "perda_liquida_pct_do_natural_2008": -5.0058245175135685
+  },
+  "VSOMA_3+": {
+   "area_ha": 204390.9,
+   "natural_2008_ha": 86569.11,
+   "natural_2025_ha": 88128.99,
+   "perdida_ha": 8989.56,
+   "ganho_ha": 10549.44,
+   "perda_liquida_pct_do_natural_2008": -1.8018898426933116
+  }
+ },
+ "n_links": 29,
+ "n_nao_contempladas": 15
+}

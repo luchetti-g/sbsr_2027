@@ -1,0 +1,24 @@
+{
+ "C1": {
+  "n_features": 15,
+  "epochs": 87,
+  "best_val_loss": 1.135003924369812,
+  "test_accuracy_stratified": 0.580489157963289,
+  "test_logloss": 1.1174935102462769,
+  "test_macro_f1": 0.5850941941961123,
+  "n_train": 349759,
+  "n_val": 75033,
+  "n_test": 82918
+ },
+ "C2": {
+  "n_features": 25,
+  "epochs": 66,
+  "best_val_loss": 1.0079114437103271,
+  "test_accuracy_stratified": 0.6309607081695169,
+  "test_logloss": 0.9811962246894836,
+  "test_macro_f1": 0.629731822440275,
+  "n_train": 349759,
+  "n_val": 75033,
+  "n_test": 82918
+ }
+}

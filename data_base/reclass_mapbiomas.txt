@@ -1,0 +1,7 @@
+Categoria-Códigos MapBiomas
+1 Floresta-3, 4, 5, 6, 49
+2 Formação natural não florestal-10, 11, 12, 29, 50
+3 Pastagem-15, 21 
+4 Agricultura/silvicultura-9, 14, 18, 19, 20, 35, 36, 39, 40, 41, 46, 47, 48, 62
+5 Urbano-22, 23, 24, 25, 30, 32, 75
+6 Água-26, 31, 33

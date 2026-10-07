@@ -1,0 +1,18 @@
+# Python >= 3.11 (uv venv --python 3.11 .venv)
+earthengine-api
+rasterio
+geopandas
+shapely
+pyproj
+numpy
+scipy
+pandas
+pyarrow
+matplotlib
+scikit-learn
+pyyaml
+tqdm
+pytest
+tabulate
+tensorflow-cpu
+scikit-image

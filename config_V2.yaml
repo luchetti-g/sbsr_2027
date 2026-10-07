@@ -1,0 +1,101 @@
+# config_V2.yaml — SBSR_26_V2. Nenhum caminho, ano, CRS ou resolução fica fixo no código.
+project_name: sbsr_26_v2
+crs: EPSG:31983
+resolution_m: 30
+margin_km: 10
+nodata_float: -9999
+nodata_cat: 0
+
+years: [1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025]
+annual_range: [1990, 2025]
+
+paths:
+  base: data_base
+  aoi: data/aoi
+  raw: data/raw
+  interim: data/interim
+  processed: data/processed
+  reports: reports
+
+inputs:
+  aoi_polygon: data_base/limites/RMS_reproj.shp
+  protected_areas: data_base/limites/areas-protegidas.shp
+  protected_name_col: NOME_UC1
+  protected_cat_col: CATEGORI3
+  dem: data_base/Variaveis_estaticas/MDE_RMS.tif
+  slope_check: data_base/Variaveis_estaticas/decli_RMS.tif
+  water: [data_base/hidrografia/Rep_DrenagemSP.shp, data_base/hidrografia/hid_massa_dagua_a.shp]
+  roads: data_base/rodovias/rod_trecho_rodoviario_l.shp
+  railways: data_base/rodovias/fer_trecho_ferroviario_l.shp
+  biota2008: data_base/conectividade_fapespbiota2008/CONECTIVIDADEFAPESP.shp
+  reclass_file: data_base/reclass_mapbiomas.txt
+
+static_vars: [mde, declividade, dist_hidrografia]   # acrescentar dist_estradas / dist_ferrovias para ativar
+
+reclass:
+  1: [3, 4, 5, 6, 49]
+  2: [10, 11, 12, 29, 50]
+  3: [15, 21]
+  4: [9, 14, 18, 19, 20, 35, 36, 39, 40, 41, 46, 47, 48, 62]
+  5: [22, 23, 24, 25, 30, 32, 75]
+  6: [26, 31, 33]
+reclass_names: {1: floresta, 2: natural_nao_florestal, 3: pastagem, 4: agricultura_silvicultura, 5: urbano, 6: agua}
+
+gee:
+  project: SEU_PROJETO_GEE   # <- ajuste: projeto do Google Cloud com Earth Engine habilitado
+  lulc_asset: projects/mapbiomas-public/assets/brazil/lulc/collection11/mapbiomas_brazil_collection11_coverage_v3
+  fire_asset: projects/mapbiomas-public/assets/brazil/fire/collection5_1/mapbiomas_fire_collection51_annual_burned_v1
+  precip_asset: projects/mapbiomas-public/assets/brazil/atmosphere/collection1/mapbiomas_brazil_collection1_precipitation_annual_v2
+  year_fallback: {2025: 2024}
+
+# ---- Landsat Collection 2 Level-2 (escala e offset oficiais USGS) ----
+landsat:
+  seasons: {seca: [6, 9], chuva: [1, 3]}      # meses (inclusive)
+  gapfill_windows: [[0, 0], [-2, 0], [-4, 2]] # [anos antes, anos depois] de t; níveis 0,1,2
+  sr_scale: 2.75e-5
+  sr_offset: -0.2
+  st_scale: 0.00341802
+  st_offset: 149.0
+  qa_bits: [1, 2, 3, 4]                       # QA_PIXEL: nuvem dilatada, cirrus, nuvem, sombra
+  harmonize: false                            # sem harmonização TM/ETM+ -> OLI (declarar como limitação)
+  sensors:
+    LANDSAT/LT05/C02/T1_L2: {red: SR_B3, nir: SR_B4, swir1: SR_B5, tir: ST_B6}
+    LANDSAT/LE07/C02/T1_L2: {red: SR_B3, nir: SR_B4, swir1: SR_B5, tir: ST_B6}
+    LANDSAT/LC08/C02/T1_L2: {red: SR_B4, nir: SR_B5, swir1: SR_B6, tir: ST_B10}
+    LANDSAT/LC09/C02/T1_L2: {red: SR_B4, nir: SR_B5, swir1: SR_B6, tir: ST_B10}
+fire_window_years: 5                          # janela [t-4, t]
+download: {tile: 512, workers: 4, retries: 12, keep_raw: false}
+valid_min_fraction: 0.90
+lst_valid_range_c: [0, 45]   # LST fora desta faixa vira nodata (resíduo de nuvem/sombra); decisão de 07/10/2026
+lst_invalid_bands: {lst_chuva: [2002]}   # ano inteiro corrompido (mediana 17 °C, 54% válido após máscara); não é época de treino
+
+# ---- Bloco C: dataset, MLP, AC ----
+train_pairs: [[1990, 1995], [1995, 2000], [2000, 2005], [2005, 2010], [2010, 2015], [2015, 2020]]
+validation_pair: [2020, 2025]
+dynamic_vars: [ndvi_seca, ndvi_chuva, ndwi_seca, ndwi_chuva, lst_seca, lst_chuva, prec_anual,
+               dist_queimada, dist_borda_floresta, dist_urbano]
+dataset: {n_per_stratum: 3000, block_size_km: 5, split: {train: 0.70, val: 0.15, test: 0.15}, seed: 42}
+neighborhood_size: 5
+scenarios: {C1: static, C2: static_dynamic}
+model: {hidden: [64, 32], dropout: 0.2, lr: 0.001, batch: 1024, max_epochs: 200, patience: 15, seed: 42}
+ca: {iterations: 3, absorbing_classes: [5, 6], predict_chunk: 1000000}
+
+# ---- Bloco D: conectividade de menor custo ----
+connectivity:
+  resistance: {1: 1, 2: 90, 3: 95, 4: 53, 5: 100, 6: 74}   # Saranholi et al. (2022), Fig. 5, reescalada 1-100 (leitura visual)
+  nodata_resistance: 100        # pixels sem classe (fora da área mapeada)
+  node_min_ha: 10               # UC só vira nó se tiver >= este tanto de floresta
+  corridor_tolerance: 0.10      # corredor = custo total até 10% acima do mínimo
+  window_margin_km: 3
+  horizons: [2025, 2030, 2040, 2050]
+  natural_classes: [1, 2]
+  contiguous_max_km: 0.2        # ligação com caminho <= isto = UCs contíguas (sem corredor a avaliar)
+
+# ---- Bloco E: projeção ----
+projection:
+  start_year: 2025
+  steps: [2030, 2035, 2040, 2045, 2050]
+  report_years: [2030, 2040, 2050]
+  frozen_window: [2015, 2025]      # clima/espectrais constantes na média deste período (hipótese: estacionariedade)
+  frozen_vars: [ndvi_seca, ndvi_chuva, ndwi_seca, ndwi_chuva, lst_seca, lst_chuva, prec_anual]
+  fire_frozen_year: 2025           # dist_queimada mantida no valor de 2025

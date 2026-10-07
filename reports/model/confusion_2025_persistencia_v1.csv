@@ -1,0 +1,7 @@
+referencia(real)\simulado,floresta,natural_nao_florestal,pastagem,agricultura_silvicultura,urbano,agua
+floresta,3691016,5486,91269,8410,295,1401
+natural_nao_florestal,3520,192102,26612,4683,141,1968
+pastagem,82513,33661,4356714,150626,6843,4810
+agricultura_silvicultura,15897,2775,172039,3232172,233,524
+urbano,1439,1011,69833,8290,626205,450
+agua,2657,1393,10772,1013,642,105936

@@ -1,0 +1,18 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.tmp.tif
+reports/logs/
+# entradas de terceiros e derivados pesados (ver data_base/README.md; regenerados pelos scripts)
+data_base/*
+!data_base/README.md
+!data_base/reclass_mapbiomas.txt
+data/raw/
+data/interim/
+data/aoi/*.tif
+data/processed/dyn_*.tif
+data/processed/static_*.tif
+data/processed/lulc_reclass_*.tif
+data/processed/samples_*.parquet
+data/processed/corridors_*.pkl

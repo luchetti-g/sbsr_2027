@@ -1,0 +1,2 @@
+QA declividade recalculada vs decli_RMS.tif (% -> graus): r=0.7522 | diferença média=-2.090° | RMSE=4.174° | mediana 4.90° vs 6.73° | n=12,879,960
+MDE < 200 m: 3038 px (ver relatório)
