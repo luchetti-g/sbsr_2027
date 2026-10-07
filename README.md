@@ -200,8 +200,7 @@ Rodar `11_project.py` com tensorflow-cpu em máquinas diferentes pode alterar le
 - Gorelick, N. et al. (2017). Google Earth Engine: planetary-scale geospatial analysis for everyone. Remote Sensing of Environment, 202, 18–27.
 - Projeto MapBiomas — Coleção 11 (cobertura e uso da terra), Coleção 5.1 (fogo) e Coleção 1 (atmosfera): <https://mapbiomas.org>.
 - Biota-FAPESP (2008). Áreas prioritárias para incremento de conectividade — camada `CONECTIVIDADEFAPESP`, DataGeo/SP.
-- Figure of Merit: **(NEEDED REF)**.
 
 ## Licença e citação
 
-Licença a definir pela autora. Autoria: Gabriela dos Santos Luchetti Vieira (UNESP/Sorocaba, LABGEMM).
+Projeto desenvolvido para publicação e apresentação no XXII Simpósio Brasileiro de Sensoriamento Remoto (inserir referência do trabalho caso aprovado e apresentado).
